@@ -1,0 +1,15 @@
+# GENERATED FROM main.py, DO NOT EDIT DIRECTLY
+name: CI
+'on':
+  push:
+    branches:
+    - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: apt-get update && apt-get install -y curl gnupg wget libfontconfig python3
+    - run: wget https://raw.githubusercontent.com/baileywickham/files/master/phantomjs-2.1.1-linux-x86_64.tar.bz2
+    - run: tar -jxvf phantomjs-2.1.1-linux-x86_64.tar.bz2
+    - run: ./toPDF.sh
