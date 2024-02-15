@@ -11,7 +11,7 @@
         "bootstrap": "4.0.0-alpha.2"
     },
     "devDependencies": {
-        "sass": "^1.26.11"
+        "sass": "^1.7.0"
     },
     "scripts": {
         "sass": "./node_modules/sass/sass.js --no-source-map ./styles/app.scss app.css",
