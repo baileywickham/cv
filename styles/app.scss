@@ -140,6 +140,7 @@ section {
   $color-go:          darken(#90e4e6, 20%);
   $color-mathematica: #f4792f;
   $color-python:      darken(#ffe260, 25%);
+  $color-rust:        darken(#d36c3d, 25%);
 
   @mixin label($color) {
     @include label-variant($color-default);
@@ -150,6 +151,9 @@ section {
     }
   }
 
+  .label-rust {
+    @include label($color-rust);
+  }
   .label-cpp {
     @include label($color-cpp);
   }
