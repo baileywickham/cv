@@ -8609,6 +8609,16 @@ section .labels {
   font-size: 1rem;
   margin-left: 0.5rem;
 }
+section .label-rust {
+  background-color: #b7bdc1;
+}
+section .label-rust[href]:focus, section .label-rust[href]:hover {
+  background-color: #9ca3a9;
+}
+section .label-rust:hover {
+  background-color: #76371b;
+  transition: all 0.1s ease-in-out;
+}
 section .label-cpp {
   background-color: #b7bdc1;
 }
