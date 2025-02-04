@@ -7,6 +7,7 @@ $headings-font-family: 'Open Sans', sans-serif;
 $font-size-root: 15px;
 $line-color: #ddd;
 $grid-gutter-width: 4rem;
+$font-size-sm: 0.875rem;
 
 @import 'bootstrap_custom';
 
@@ -132,7 +133,7 @@ section {
     margin-left: 0.5rem;
   }
 
-//  $label-default-bg:            $gray-light !default;
+ $label-default-bg:            #bcbcbd !default;
   $color-default:     lighten($label-default-bg, 20%);
   $color-cpp:         #045088;
   $color-ember:       #f23818;
@@ -142,43 +143,43 @@ section {
   $color-python:      darken(#ffe260, 25%);
   $color-rust:        darken(#d36c3d, 25%);
 
-  @mixin label($color) {
-    @include label-variant($color-default);
-
+  @mixin badge-custom($color) {
+    background-color: $color-default;
+    
     &:hover {
       background-color: $color;
       transition: all 0.1s ease-in-out;
     }
   }
 
-  .label-rust {
-    @include label($color-rust);
+  .badge-rust {
+    @include badge-custom($color-rust);
   }
-  .label-cpp {
-    @include label($color-cpp);
+  .badge-cpp {
+    @include badge-custom($color-cpp);
   }
-  .label-c {
-    @include label($color-cpp);
-  }
-
-  .label-ember {
-    @include label($color-ember);
+  .badge-c {
+    @include badge-custom($color-cpp);
   }
 
-  .label-rails {
-    @include label($color-rails);
+  .badge-ember {
+    @include badge-custom($color-ember);
   }
 
-  .label-go {
-    @include label($color-go);
+  .badge-rails {
+    @include badge-custom($color-rails);
   }
 
-  .label-mathematica {
-    @include label($color-mathematica);
+  .badge-go {
+    @include badge-custom($color-go);
   }
 
-  .label-python {
-    @include label($color-python);
+  .badge-mathematica {
+    @include badge-custom($color-mathematica);
+  }
+
+  .badge-python {
+    @include badge-custom($color-python);
   }
 }
 
@@ -203,7 +204,7 @@ section {
     font-size: 8px;
   }
 
-  .label {
+  .badge {
     border: 0;
     line-height: 1.2;
   }
