@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply mt-8 text-[15px];
+  }
+
+  h1 {
+    @apply font-light mb-0 mt-3 pb-4;
+  }
+
+  h2 {
+    @apply font-open text-[1.8em] font-light;
+  }
+
+  h3 {
+    @apply font-open text-[1.3em] font-normal;
+  }
+}
+
+@layer components {
+  .badge {
+    @apply px-2 py-1 rounded-full text-xs font-semibold transition-colors duration-100;
+  }
+  
+  .badge-rust {
+    @apply bg-gray-300 hover:bg-[#d36c3d];
+  }
+  
+  .badge-go {
+    @apply bg-gray-300 hover:bg-[#90e4e6];
+  }
+  
+  .badge-python {
+    @apply bg-gray-300 hover:bg-[#ffe260];
+  }
+
+  .duration {
+    @apply text-sm absolute -left-[7.5rem] mt-1 pr-[0.4rem] w-[7.1rem];
+  }
+
+  .location {
+    @apply font-open;
+  }
+
+  .description {
+    @apply mb-2;
+  }
+}
+
+@media print {
+  html {
+    font-size: 7px;
+  }
+
+  body {
+    @apply mt-0;
+    -webkit-print-color-adjust: exact;
+  }
+
+  article {
+    font-size: 8px;
+  }
+
+  .badge {
+    @apply border-0 leading-[1.2];
+  }
+}
+
+
