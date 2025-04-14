@@ -1,13 +1,41 @@
-FROM ubuntu
-RUN apt-get update && apt-get install -y curl gnupg wget libfontconfig python3 bzip2
+FROM arm64v8/ubuntu:latest
 
-WORKDIR /home/root
-COPY . /home/root
+# Install base dependencies + Node.js + pnpm + Python + Chromium + fonts
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    gnupg \
+    wget \
+    python3 \
+    # Use the 'chromium' package instead of 'chromium-browser' to avoid snaps
+    chromium \
+    fonts-liberation \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN wget -v https://raw.githubusercontent.com/baileywickham/files/master/phantomjs-2.1.1-linux-x86_64.tar.bz2
-RUN tar -jxvf phantomjs-2.1.1-linux-x86_64.tar.bz2
-ENV OPENSSL_CONF=/dev/null
+# Verify chromium installation and list contents
+RUN echo "Listing /usr/bin..." && ls -la /usr/bin | grep chrom
 
-ENTRYPOINT [ "./toPDF.sh" ]
+# Install Node.js (using NodeSource LTS)
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs
 
+# Install pnpm
+RUN npm install -g pnpm
 
+WORKDIR /app
+
+# Set env var to skip puppeteer's download BEFORE installing dependencies
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+# Explicitly tell Puppeteer the path (though we'll also set it in the script)
+# ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Copy dependency manifests
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies using pnpm
+RUN pnpm install --frozen-lockfile
+
+# Copy the rest of the application code
+COPY . .
+
+# No ENTRYPOINT needed, we'll specify command in docker run 
