@@ -19,6 +19,7 @@
 		"dev": "live-server",
 		"lint": "pnpm exec biome check .",
 		"lint:fix": "pnpm exec biome check --write .",
-		"pdf": "tsx toPdf.ts"
+		"pdf": "tsx toPdf.ts",
+		"ci:test": "act --container-architecture linux/amd64"
 	}
 }
