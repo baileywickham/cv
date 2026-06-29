@@ -1,4 +1,4 @@
-# GENERATED FROM main.py, DO NOT EDIT DIRECTLY
+# Maintained directly. (main.py is stale and no longer generates this file.)
 name: CI
 'on':
   push:
@@ -17,9 +17,10 @@ jobs:
         node-version: 22
         cache: 'pnpm' # Enable pnpm caching
     - run: pnpm install
+    - run: pnpm exec puppeteer browsers install chrome
     - run: pnpm pdf
     - name: Upload PDF artifact
       uses: actions/upload-artifact@v4
       with:
         name: cv-pdf
-        path: cv.pdf # Assuming the PDF is generated here
+        path: public/wickham.pdf
