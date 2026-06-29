@@ -7,10 +7,10 @@
 	"author": "baileywickham <baileywickham@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"@biomejs/biome": "2.0.0-beta.1",
-		"@fortawesome/fontawesome-free": "^5.14.0",
-		"puppeteer": "^24.6.1",
-		"tsx": "^4.19.0"
+		"@biomejs/biome": "2.5.1",
+		"@fortawesome/fontawesome-free": "^7.3.0",
+		"puppeteer": "^25.2.1",
+		"tsx": "^4.22.4"
 	},
 	"devDependencies": {
 		"live-server": "^1.2.2"
