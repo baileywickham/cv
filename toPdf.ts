@@ -6,7 +6,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const run = async () => {
-	const browser = await puppeteer.launch();
+	// CI runners disable unprivileged user namespaces, so Chrome's sandbox can't
+	// start there; --no-sandbox is the standard workaround for headless PDF export.
+	const browser = await puppeteer.launch({
+		args: ["--no-sandbox", "--disable-setuid-sandbox"],
+	});
 	const page = await browser.newPage();
 
 	const filePath = `file://${path.resolve(__dirname, "index.html")}`;
