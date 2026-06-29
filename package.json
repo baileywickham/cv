@@ -12,14 +12,14 @@
 		"puppeteer": "^25.2.1",
 		"tsx": "^4.22.4"
 	},
-	"devDependencies": {
-		"live-server": "^1.2.2"
-	},
 	"scripts": {
-		"dev": "live-server",
+		"dev": "vite",
 		"lint": "pnpm exec biome check .",
 		"lint:fix": "pnpm exec biome check --write .",
 		"pdf": "tsx toPdf.ts",
 		"ci:test": "act"
+	},
+	"devDependencies": {
+		"vite": "^8.1.0"
 	}
 }
