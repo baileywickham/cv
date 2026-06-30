@@ -40,6 +40,12 @@
         text-rendering: optimizeLegibility;
       }
       @media print {
+      /* Compact layout when printing / rendering the PDF only.
+         The layout is rem-based, so shrinking the root font-size scales
+         text, margins, and gaps together to fit more on each page. */
+      html {
+        font-size: 9px;
+      }
       /* Ensure borders print */
       .print\:border-l {
           border-left-width: 1px;
