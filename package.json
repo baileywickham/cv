@@ -7,7 +7,6 @@
 	"author": "baileywickham <baileywickham@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"@biomejs/biome": "2.5.1",
 		"@fortawesome/fontawesome-free": "^7.3.0",
 		"puppeteer": "^25.2.1",
 		"tsx": "^4.22.4"
@@ -20,9 +19,12 @@
 		"ci:test": "act"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.5.13",
 		"vite": "^8.1.0"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["puppeteer"]
+		"onlyBuiltDependencies": [
+			"puppeteer"
+		]
 	}
 }
