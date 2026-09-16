@@ -53,63 +53,105 @@
 			section {
 				margin-bottom: 1rem;
 			}
-			/* Linearize to a single column for the PDF. The two-column layout has
-               no unambiguous reading order in a PDF text layer: pdfminer and
-               pypdf both splice the sidebar into the middle of the Experience
-               section, interleaving skills and publications with a role's
-               bullets. Stacking gives every extractor one order. Screen
-               layout is untouched. */
+			/* Rebuild the PDF as a conventional single-column resume.
+               The two-column layout has no unambiguous reading order in a PDF
+               text layer -- pdfminer and pypdf both spliced the sidebar into
+               the middle of the Console entry. display:contents promotes the
+               sidebar blocks to flex items of the page column so they can be
+               ordered independently of the main article. */
 			.cv-columns {
 				display: flex;
 				flex-direction: column;
 			}
 			.cv-columns > aside {
-				order: -1;
+				display: contents;
 			}
-			.cv-columns > article,
-			.cv-columns > aside {
+			.cv-columns > article {
 				width: 100%;
 				max-width: 100%;
+				order: 3;
 			}
-			/* Stacked full width, the sidebar's one-item-per-line lists waste a lot
-               of vertical space and push Education onto a second page. Flow
-               them inline instead; they stay separate text runs, so extraction
-               is unaffected. */
-			.cv-columns > aside {
-				padding-top: 0;
+			/* contact details form a header block under the name; skills and
+                   publications trail the experience, as on a normal resume */
+			.cv-contact {
+				order: 1;
 			}
-			.cv-columns > aside ul {
+			.cv-personal {
+				order: 2;
+			}
+			.cv-technical {
+				order: 4;
+			}
+			.cv-publications {
+				order: 5;
+			}
+			/* the standalone 'View at' link duplicates the Personal Site entry */
+			.cv-columns > aside > .text-right {
+				display: none;
+			}
+			/* contact lines need no headings of their own */
+			.cv-contact h3,
+			.cv-personal h3 {
+				display: none;
+			}
+			.cv-contact ul,
+			.cv-personal ul {
+				margin-bottom: 0;
+			}
+			.cv-personal {
+				margin-bottom: 1.25rem;
+			}
+			/* keep the contact lines clear of the right edge: poppler treats a run
+                   ending at the margin as a separate column and sorts it after
+                   the following heading */
+			.cv-contact ul,
+			.cv-personal ul {
+				max-width: 82%;
+			}
+			/* display:contents drops the aside's own padding, so the promoted
+                   blocks must re-establish the article's gutter to stay aligned */
+			.cv-block {
+				padding-left: 2rem;
+				padding-right: 2rem;
+			}
+			/* flow the sidebar lists inline instead of one item per line */
+			.cv-block ul {
 				display: block;
 				margin-left: 0;
 			}
-			.cv-columns > aside ul > li {
+			.cv-block ul > li {
 				display: inline-block;
 				position: relative;
 				padding-left: 1.6em;
 				margin-right: 1.4em;
 			}
-			/* reclaim page padding: the stacked layout ends ~30px past the
-               printable area, entirely in leading/trailing whitespace */
-			body > .container {
-				padding-top: 0.5rem;
-				padding-bottom: 0;
-			}
-			.cv-columns > aside > .text-right {
-				margin-bottom: 0.25rem;
-			}
-			/* tighten the stacked sidebar so Education still fits on page one */
-			.cv-columns > aside h3 {
-				margin-bottom: 0.3rem;
-				padding-bottom: 0.1rem;
-			}
-			.cv-columns > aside ul {
-				margin-bottom: 0.7rem;
-			}
-			.cv-columns > aside ul > li .fa-li {
+			.cv-block ul > li .fa-li {
 				position: absolute;
 				left: 0;
 				width: 1.25em;
 				text-align: left;
+			}
+			/* stacked, Technical and Publications are peers of Experience and
+                   Education, so give them the same heading treatment rather
+                   than the sidebar's smaller bordered style */
+			.cv-technical h3,
+			.cv-publications h3 {
+				font-size: 1.875rem;
+				font-weight: 300;
+				line-height: 2.25rem;
+				border-bottom: 0;
+				padding-bottom: 0;
+				margin-bottom: 0.5rem;
+				margin-top: 0.75rem;
+			}
+			.cv-technical ul,
+			.cv-publications ul {
+				margin-bottom: 0.7rem;
+			}
+			/* reclaim page padding */
+			body > .container {
+				padding-top: 0.5rem;
+				padding-bottom: 0;
 			}
 			/* keep a heading with the section it introduces */
 			h2,
@@ -443,109 +485,117 @@
 						>
 					</div>
 
-					<h3
-						class="text-xl font-medium font-heading border-b border-gray-200 pb-1 mb-3"
-					>
-						Contact
-					</h3>
-					<ul class="fa-ul mb-6 space-y-0.5 text-gray-700 leading-snug">
-						<li>
-							<span class="fa-li"><i class="fa fa-home"></i></span>San
-							Francisco, CA
-						</li>
-						<li>
-							<span class="fa-li"><i class="fa fa-at"></i></span>
-							<a
-								href="mailto:b@baileywickham.com"
-								class="text-blue-600 hover:underline hover:bg-blue-50"
-								>b@baileywickham.com</a
-							>
-						</li>
-						<li>
-							<span class="fa-li"><i class="fa fa-lock"></i></span>
-							<a
-								href="https://github.com/baileywickham/keys"
-								class="text-blue-600 hover:underline hover:bg-blue-50"
-								>PGP Keys</a
-							>
-						</li>
-					</ul>
+					<div class="cv-block cv-contact">
+						<h3
+							class="text-xl font-medium font-heading border-b border-gray-200 pb-1 mb-3"
+						>
+							Contact
+						</h3>
+						<ul class="fa-ul mb-6 space-y-0.5 text-gray-700 leading-snug">
+							<li>
+								<span class="fa-li"><i class="fa fa-home"></i></span>San
+								Francisco, CA
+							</li>
+							<li>
+								<span class="fa-li"><i class="fa fa-at"></i></span>
+								<a
+									href="mailto:b@baileywickham.com"
+									class="text-blue-600 hover:underline hover:bg-blue-50"
+									>b@baileywickham.com</a
+								>
+							</li>
+							<li>
+								<span class="fa-li"><i class="fa fa-lock"></i></span>
+								<a
+									href="https://github.com/baileywickham/keys"
+									class="text-blue-600 hover:underline hover:bg-blue-50"
+									>PGP Keys</a
+								>
+							</li>
+						</ul>
+					</div>
 
-					<h3
-						class="text-xl font-medium font-heading border-b border-gray-200 pb-1 mb-3"
-					>
-						Technical
-					</h3>
-					<ul class="fa-ul mb-6 space-y-0.5 text-gray-700 leading-snug">
-						<li>
-							<span class="fa-li"><i class="fa fa-code"></i></span>
-							Python, C/C++, Go, Rust, TypeScript
-						</li>
-						<li>
-							<span class="fa-li"><i class="fa fa-brain"></i></span>
-							JAX, PyTorch, MLX
-						</li>
-						<li>
-							<span class="fa-li"><i class="fa fa-server"></i></span>
-							AWS, CloudFormation, Ansible, KVM
-						</li>
-					</ul>
+					<div class="cv-block cv-technical">
+						<h3
+							class="text-xl font-medium font-heading border-b border-gray-200 pb-1 mb-3"
+						>
+							Technical
+						</h3>
+						<ul class="fa-ul mb-6 space-y-0.5 text-gray-700 leading-snug">
+							<li>
+								<span class="fa-li"><i class="fa fa-code"></i></span>
+								Python, C/C++, Go, Rust, TypeScript
+							</li>
+							<li>
+								<span class="fa-li"><i class="fa fa-brain"></i></span>
+								JAX, PyTorch, MLX
+							</li>
+							<li>
+								<span class="fa-li"><i class="fa fa-server"></i></span>
+								AWS, CloudFormation, Ansible, KVM
+							</li>
+						</ul>
+					</div>
 
-					<h3
-						class="text-xl font-medium font-heading border-b border-gray-200 pb-1 mb-3"
-					>
-						Publications
-					</h3>
-					<ul class="fa-ul mb-6 space-y-0.5 text-gray-700 leading-snug">
-						<li>
-							<span class="fa-li"><i class="fa fa-image"></i></span>I.
-							Gallagher, A. Hasse, B. Wickham, E. Brussel.
-							<a
-								href="public/H.pdf"
-								class="text-blue-600 hover:underline hover:bg-blue-50"
-							>
-								Poster at MAA Golden Session
-							</a>
-							<em>Spheres of Planes in the Generalized Quaternions</em>
-						</li>
-					</ul>
-					<h3
-						class="text-xl font-medium font-heading border-b border-gray-200 pb-1 mb-3"
-					>
-						Personal
-					</h3>
-					<ul class="fa-ul mb-6 space-y-0.5 text-gray-700 leading-snug">
-						<li>
-							<span class="fa-li"><i class="fa fa-globe"></i></span>Personal
-							Site:
-							<a
-								href="https://baileywickham.com"
-								class="text-blue-600 hover:underline hover:bg-blue-50"
-								>baileywickham.com</a
-							>
-						</li>
-						<li>
-							<span class="fa-li"><i class="fab fa-github"></i></span>Github:
-							<a
-								href="https://github.com/baileywickham"
-								class="text-blue-600 hover:underline hover:bg-blue-50"
-								>baileywickham</a
-							>
-						</li>
-						<li>
-							<span class="fa-li"><i class="fab fa-linkedin"></i></span
-							>LinkedIn:
-							<a
-								href="https://www.linkedin.com/in/bailey-w-10b01a345/"
-								class="text-blue-600 hover:underline hover:bg-blue-50"
-								>Bailey Wickham</a
-							>
-						</li>
-						<li>
-							<span class="fa-li"><i class="fa fa-heart"></i></span>Running,
-							Surfing, Reading
-						</li>
-					</ul>
+					<div class="cv-block cv-publications">
+						<h3
+							class="text-xl font-medium font-heading border-b border-gray-200 pb-1 mb-3"
+						>
+							Publications
+						</h3>
+						<ul class="fa-ul mb-6 space-y-0.5 text-gray-700 leading-snug">
+							<li>
+								<span class="fa-li"><i class="fa fa-image"></i></span>I.
+								Gallagher, A. Hasse, B. Wickham, E. Brussel.
+								<a
+									href="public/H.pdf"
+									class="text-blue-600 hover:underline hover:bg-blue-50"
+								>
+									Poster at MAA Golden Session
+								</a>
+								<em>Spheres of Planes in the Generalized Quaternions</em>
+							</li>
+						</ul>
+					</div>
+					<div class="cv-block cv-personal">
+						<h3
+							class="text-xl font-medium font-heading border-b border-gray-200 pb-1 mb-3"
+						>
+							Personal
+						</h3>
+						<ul class="fa-ul mb-6 space-y-0.5 text-gray-700 leading-snug">
+							<li>
+								<span class="fa-li"><i class="fa fa-globe"></i></span>Personal
+								Site:
+								<a
+									href="https://baileywickham.com"
+									class="text-blue-600 hover:underline hover:bg-blue-50"
+									>baileywickham.com</a
+								>
+							</li>
+							<li>
+								<span class="fa-li"><i class="fab fa-github"></i></span>Github:
+								<a
+									href="https://github.com/baileywickham"
+									class="text-blue-600 hover:underline hover:bg-blue-50"
+									>baileywickham</a
+								>
+							</li>
+							<li>
+								<span class="fa-li"><i class="fab fa-linkedin"></i></span
+								>LinkedIn:
+								<a
+									href="https://www.linkedin.com/in/bailey-w-10b01a345/"
+									class="text-blue-600 hover:underline hover:bg-blue-50"
+									>Bailey Wickham</a
+								>
+							</li>
+							<li>
+								<span class="fa-li"><i class="fa fa-heart"></i></span>Running,
+								Surfing, Reading
+							</li>
+						</ul>
+					</div>
 				</aside>
 			</div>
 		</div>
